@@ -1,19 +1,43 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="logo" src="./assets/logo.png" width="500" height="500">
+    <h1>TCD Room Booking App</h1>
+    <DataDisplay v-if="dataFound" :bookingRef="bookingRef" :userID="userID"/>
+    <Approval v-if="dataFound"/>
   </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Approval from './components/Approval.vue';
+import DataDisplay from './components/DataDisplay.vue';
 
 export default {
-  name: 'App',
+  name: 'app',
   components: {
-    HelloWorld
-  }
-}
+    Approval,
+    DataDisplay
+  },
+  data (){
+    return {
+      refFound: Boolean,
+      idFound: Boolean,
+      dataFound: false,
+      userID: "",
+      bookingRef: ""
+    }
+  },
+  created() {
+    let urlParams = new URLSearchParams(window.location.search);
+    this.refFound = urlParams.has('ref'); // check for booking ref
+    console.log(this.refFound); 
+    this.idFound = urlParams.has('id'); // check for user id
+    console.log(this.idFound); 
+    this.bookingRef = urlParams.get('ref');
+    console.log(this.bookingRef);
+    this.userID = urlParams.get('id')
+    console.log(this.userID);
+    this.dataFound = this.refFound && this.idFound;
+  },  
+};
 </script>
 
 <style>
