@@ -5,9 +5,8 @@
     <DataDisplay v-if="dataFound" :bookingRef="bookingRef" :userID="userID"/>
     <Approval v-if="dataFound"/>
     <div v-if="!dataFound">
-      Something went wrong. Please approve via our app!
+      Something went wrong. Please approve this booking via our app!
     </div>
-
   </div>
 </template>
 <script>

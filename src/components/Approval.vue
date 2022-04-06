@@ -2,9 +2,9 @@
   <div class="approve">
     <h4>Accept or Reject Booking Request</h4>
     <ul>
-      <button v-on:click="approved=true">Accept</button>
+      <button v-on:click="approve=true">Accept</button>
       &nbsp;
-      <button v-on:click="approved=false">Reject</button>
+      <button v-on:click="approve=false">Reject</button>
     </ul>
   </div>
 </template>
@@ -12,6 +12,12 @@
 <script>
 export default {
   name: 'Approval',
+  data (){
+    return {
+      approve: Boolean,
+      result: Boolean,
+    }
+  }
 }
 </script>
 
