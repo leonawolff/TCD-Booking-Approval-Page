@@ -4,6 +4,10 @@
     <h1>TCD Room Booking App</h1>
     <DataDisplay v-if="dataFound" :bookingRef="bookingRef" :userID="userID"/>
     <Approval v-if="dataFound"/>
+    <div v-if="!dataFound">
+      Something went wrong. Please approve via our app!
+    </div>
+
   </div>
 </template>
 <script>
