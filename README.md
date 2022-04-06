@@ -1,4 +1,4 @@
-# app
+# TCD-Booking-Approval-Page
 
 ## Project setup
 ```
