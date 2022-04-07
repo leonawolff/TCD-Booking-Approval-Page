@@ -1,7 +1,7 @@
 <template>
   <div class="display">
     <p>Booking Reference: {{bookingRef}}</p>
-    <p>Your ID: {{userID}}</p>
+    <p>Your Email: {{userEmail}}</p>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'DataDisplay',
   props: {
       bookingRef: String,
-      userID: String
+      userEmail: String
   }
 }
 
