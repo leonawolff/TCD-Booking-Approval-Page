@@ -1,11 +1,11 @@
 <template>
   <div class="approve">
     <div v-if="!clicked">
-      <h4>Accept or Reject Booking Request</h4>
+      <h3>Accept or Reject Booking Request</h3>
       <ul>
-        <button v-on:click="onClick(true)">Accept</button>
+        <button class="button1" v-on:click="onClick(true)">Accept</button>
         &nbsp;
-        <button v-on:click="onClick(false)">Reject</button>
+        <button class="button1" v-on:click="onClick(false)">Reject</button>
       </ul>
     </div>
     <div v-if="clicked && success">
@@ -30,14 +30,13 @@ export default {
   props: {
     bookingRef: String,
     userEmail: String,
-    userID: String,
   },
   data() {
     return {
       success: false,
       failure: false,
       clicked: false,
-      approverFound: false
+      approverFound: false,
     };
   },
   methods: {
@@ -52,40 +51,44 @@ export default {
         .collection("bookings")
         .doc(booking);
 
-
       const docSnap = await getDoc(entityRef);
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
+        this.success = true;
       } else {
         console.log("No such document!");
+        this.failure = true;
       }
-      let approverList = docSnap.data().approvers;
-      var size = Object.keys(approverList).length;
-      console.log(size);
 
-      for(const key of Object.getOwnPropertyNames(approverList)){
-        console.log(key)
-        console.log(userEmail)
-        if(key == userEmail){
-          this.approverFound = true;
+      if (this.success) {
+        let approverList = docSnap.data().approvers;
+        var size = Object.keys(approverList).length;
+        console.log(size);
+
+        for (const key of Object.getOwnPropertyNames(approverList)) {
+          console.log(key);
+          console.log(userEmail);
+          if (key == userEmail) {
+            this.approverFound = true;
+          }
         }
-      }
-      if (this.approverFound){
-        approverList[userEmail] = updateMsg;
-      }
+        if (this.approverFound) {
+          approverList[userEmail] = updateMsg;
+        }
 
-      entityRef
-        .update({
-          approvers: approverList
-        })
-        .then(() => {
-          console.log("Booking updated!");
-          this.success = true;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.failure = true;
-        });
+        entityRef
+          .update({
+            approvers: approverList,
+          })
+          .then(() => {
+            console.log("Booking updated!");
+            this.success = true;
+          })
+          .catch((error) => {
+            console.log(error);
+            this.failure = true;
+          });
+      }
     },
     approveBooking() {
       var propData = {
@@ -127,5 +130,18 @@ li {
 }
 a {
   color: #42b983;
+}
+.button1 {
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 10px 24px;
+  border: 2px solid #0569b9; /* TRINITY BLUE!!!! */
+}
+.button1:hover {
+  background-color: #0569b9;
+  color: white;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 </style>
