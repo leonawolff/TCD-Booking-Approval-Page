@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <img alt="logo" src="./assets/logo.png" width="500" height="500">
-    <h1>TCD Room Booking App</h1>
+    <h1>TCD Room Bookings</h1>
     <DataDisplay v-if="dataFound" :bookingRef="bookingRef" :userEmail="userEmail"/>
     <Approval v-if="dataFound" :bookingRef="bookingRef" :userEmail="userEmail" :userID="userID"/>
     <div v-if="!dataFound">
-      Something went wrong. Please approve this booking via our app!
+      Something went wrong. Please approve/deny this booking via our app!
     </div>
   </div>
 </template>
