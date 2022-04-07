@@ -1,16 +1,25 @@
 <template>
   <div class="approve">
-    <h4>Accept or Reject Booking Request</h4>
-    <ul>
-      <button v-on:click="onClick(true)">Accept</button>
-      &nbsp;
-      <button v-on:click="onClick(false)">Reject</button>
-    </ul>
+    <div v-if="!clicked">
+      <h4>Accept or Reject Booking Request</h4>
+      <ul>
+        <button v-on:click="onClick(true)">Accept</button>
+        &nbsp;
+        <button v-on:click="onClick(false)">Reject</button>
+      </ul>
+    </div>
+    <div v-if="clicked&&success">
+      <h4>Success!</h4>
+      <p>Your response has been recorded. Thanks!</p>
+    </div>
+    <div v-if="clicked&&failure">
+      <h4>Uh oh!</h4>
+      <p>Something went wrong. Please approve/deny this booking via our app!</p>
+    </div>
   </div>
 </template>
 
 <script>
-// import firebase from "../firebaseInit";
 import { firebase } from "../firebaseInit";
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
@@ -24,22 +33,12 @@ export default {
   },
   data (){
     return {
-      response: Boolean,
-      result: Boolean,
-      allData: Object
+      success: false,
+      failure: false,
+      clicked:false
     }
   },
   methods: {
-  //   async readUser(){
-  //     let response = await firebase.firestore()
-  //       .collection('users')
-  //       .doc(this.userID)
-  //       .get()
-  //       .catch(error => {
-  //         console.log(error)
-  //       });
-  //     console.log(response.data)
-  // },
 
   async UpdateBooking(propData) {
     
@@ -51,9 +50,11 @@ export default {
         .update({status:update})
         .then(() => {
             console.log('Booking updated!');
+            this.success = true
           })
         .catch(error => {
             console.log(error)
+            this.failure = true
         });
 },
     approveBooking () {
@@ -71,24 +72,8 @@ export default {
       this.UpdateBooking(propData)
     },
 
-    // async readBooking(){
-    //   const timestamp = firebase.firestore.Timestamp.now()
-    //   console.log(timestamp)
-    //   let response = await firebase.firestore().collection('bookings')
-    //       .where("open", "==", true)
-    //       .where("dateOfEvent", ">", timestamp)
-    //       .get()
-    //       .then(querySnapshot => {
-    //         const documents = querySnapshot.docs.map(doc => doc.data())
-    //         this.allData = documents;
-    //           error => {
-    //               console.log('Error : ', error)
-    //           }
-    //       })
-    //       console.log(response)
-    // },
-
     onClick(approve){
+      this.clicked=true;
       if(approve)
         this.approveBooking();
       else
