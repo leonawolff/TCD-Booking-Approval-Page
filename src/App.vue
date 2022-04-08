@@ -15,6 +15,9 @@ import DataDisplay from './components/DataDisplay.vue';
 
 export default {
   name: 'app',
+  mounted() {  
+    document.title = "TCD Room Bookings";  
+  },  
   components: {
     Approval,
     DataDisplay
